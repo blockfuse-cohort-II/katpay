@@ -26,6 +26,8 @@ contract PaymentGateway {
     address public usdt; 
 
     constructor(address _uniswapRouter, address _usdt) {
+        require(_uniswapRouter != _usdt, "Error Same Token Address");
+        require(_uniswapRouter != address(0) && _usdt != address(0), "Invalid Address");
         uniswapRouter = _uniswapRouter;
         usdt = _usdt;
     }
