@@ -26,6 +26,8 @@ contract PaymentGateway {
     address public usdt; // Address of USDT token
 
     constructor(address _uniswapRouter, address _usdt) {
+        require(_uniswapRouter != _usdt, "Error Same Token Address");
+        require(_uniswapRouter != address(0) && _usdt != address(0), "Invalid Address");
         uniswapRouter = _uniswapRouter;
         usdt = _usdt;
     }
@@ -45,7 +47,7 @@ contract PaymentGateway {
                 address[] memory path = new address[](2);
                 path[0] = tokens[i];
                 path[1] = usdt;
-                // Get the USDT value for the token balance.
+               
                 try IUniswapV2Router02(uniswapRouter).getAmountsOut(balance, path) returns (uint[] memory amounts) {
                     usdtValue = amounts[1];
                 } catch {
